@@ -12,7 +12,7 @@ st.write("Téléverse une image de poisson pour prédire son espèce 🐟🐠�
 # === Chargement du modèle ===
 @st.cache_resource
 def load_model():
-    model_path = Path("model") / "fish_model.keras"
+    model_path = Path("model") / "modele_final.h5"
     model = tf.keras.models.load_model(model_path)
     return model
 
