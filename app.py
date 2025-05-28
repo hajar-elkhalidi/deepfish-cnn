@@ -3,6 +3,8 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 from pathlib import Path
+import requests
+import os
 
 # === Configuration ===
 st.set_page_config(page_title="DeepFish CNN")
@@ -12,20 +14,24 @@ st.write("Téléverse une image de poisson pour prédire son espèce 🐟🐠�
 # === Chargement du modèle ===
 @st.cache_resource
 def download_model():
-    model_dir = Path("model")
-    model_dir.mkdir(exist_ok=True)
-    model_path = model_dir / "modele_final.h5"
+    model_url = "https://huggingface.co/ehajar/deepfish_cnn/resolve/main/modele_final.h5"
+    model_path = "modele_final.h5"
 
-    if not model_path.exists():
-        url = "https://huggingface.co/ehajar/deepfish_cnn/resolve/main/modele_final.h5"
-        with requests.get(url, stream=True) as r:
-            r.raise_for_status()
+    if not os.path.exists(model_path):
+        response = requests.get(model_url, stream=True)
+        if response.status_code == 200:
             with open(model_path, "wb") as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+        else:
+            raise Exception(f"Erreur lors du téléchargement du modèle : {response.status_code}")
+
+    if os.path.getsize(model_path) < 10000:
+        raise Exception("Le fichier du modèle semble corrompu ou incomplet.")
+
     return tf.keras.models.load_model(model_path)
 
-model = download_model()
 
 # === Dictionnaire des classes ===
 class_names = ['Bangus', 'Big Head Carp', 'Black Spotted Barb', 'Catfish', 'Climbing Perch', 'Fourfinger Threadfin',
