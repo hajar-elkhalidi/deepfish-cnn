@@ -1,0 +1,6 @@
+01.jpg => black-skirt-tetra
+02.jpg => snakehead
+03.jpg => mosquito fish
+04.jpg => goby
+05.jpg => tilapia
+06.jpg => glass perchlet
