@@ -32,6 +32,7 @@ def download_model():
 
     return tf.keras.models.load_model(model_path)
 
+model = download_model()
 
 # === Dictionnaire des classes ===
 class_names = ['Bangus', 'Big Head Carp', 'Black Spotted Barb', 'Catfish', 'Climbing Perch', 'Fourfinger Threadfin',
