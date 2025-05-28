@@ -17,7 +17,7 @@ def download_model():
     model_path = model_dir / "modele_final.h5"
 
     if not model_path.exists():
-        url = "https://huggingface.co/ehajar/deepfish_cnn/blob/main/modele_final.h5"
+        url = "https://huggingface.co/ehajar/deepfish_cnn/resolve/main/modele_final.h5"
         with requests.get(url, stream=True) as r:
             r.raise_for_status()
             with open(model_path, "wb") as f:
