@@ -11,12 +11,21 @@ st.write("Téléverse une image de poisson pour prédire son espèce 🐟🐠�
 
 # === Chargement du modèle ===
 @st.cache_resource
-def load_model():
-    model_path = Path("model") / "modele_final.h5"
-    model = tf.keras.models.load_model(model_path)
-    return model
+def download_model():
+    model_dir = Path("model")
+    model_dir.mkdir(exist_ok=True)
+    model_path = model_dir / "modele_final.h5"
 
-model = load_model()
+    if not model_path.exists():
+        url = "https://huggingface.co/ehajar/deepfish_cnn/blob/main/modele_final.h5"
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(model_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+    return tf.keras.models.load_model(model_path)
+
+model = download_model()
 
 # === Dictionnaire des classes ===
 class_names = ['Bangus', 'Big Head Carp', 'Black Spotted Barb', 'Catfish', 'Climbing Perch', 'Fourfinger Threadfin',
