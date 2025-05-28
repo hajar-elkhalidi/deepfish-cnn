@@ -14,7 +14,7 @@ st.write("Téléverse une image de poisson pour prédire son espèce 🐟🐠�
 # === Chargement du modèle ===
 @st.cache_resource
 def download_model():
-    model_url = "https://huggingface.co/ehajar/deepfish_cnn/resolve/main/modele_final.h5"
+    model_url = "https://github.com/hajar-elkhalidi/deepfish-cnn/releases/download/CNN_model_v0.2/modele_final.h5"
     model_path = "modele_final.h5"
 
     if not os.path.exists(model_path):
